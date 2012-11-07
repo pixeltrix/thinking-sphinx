@@ -361,9 +361,9 @@ module ThinkingSphinx
 
       if defined?(Rails) && Rails.application
         directories += Rails.application.paths['app/models'].to_a
-        directories += Rails.application.railties.engines.collect { |engine|
-          engine.paths['app/models'].to_a
-	      }.flatten
+
+        engines = Rails.application.railties.select{ |railtie| railtie.is_a?(Rails::Engine) }
+        directories += engines.collect{ |engine| engine.paths['app/models'].to_a }.flatten
       end
 
       directories
